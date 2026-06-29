@@ -1,10 +1,8 @@
 import inspect
 import logging
-import re
 from collections.abc import Callable
 from contextlib import AbstractAsyncContextManager
 from enum import Enum
-from pathlib import Path
 from typing import (
     Any,
     Literal,
@@ -33,15 +31,12 @@ class Body(BaseModel):
 
 class Stream(WebRTCConnectionMixin):
     """
-    Define an audio or video stream with a built-in UI, mountable on a FastAPI app.
+    Define an audio, video, or audio-video stream, mountable on a FastAPI app.
 
     This class encapsulates the logic for handling real-time communication (WebRTC)
-    streams, including setting up peer connections, managing tracks, generating
-    a Gradio user interface, and integrating with FastAPI for API endpoints.
-    It supports different modes (send, receive, send-receive) and modalities
-    (audio, video, audio-video), and can optionally handle additional Gradio
-    input/output components alongside the stream. It also provides functionality
-    for telephone integration via the FastPhone method.
+    streams, including setting up peer connections, managing tracks, and integrating
+    with FastAPI for HTTP and WebSocket API endpoints. It supports different modes
+    (send, receive, send-receive) and modalities (audio, video, audio-video).
 
     Attributes:
         mode (Literal["send-receive", "receive", "send"]): The direction of the stream.
@@ -51,13 +46,9 @@ class Stream(WebRTCConnectionMixin):
         concurrency_limit (int): The maximum number of concurrent connections allowed.
         time_limit (float | None): Time limit in seconds for the event handler execution.
         allow_extra_tracks (bool): Whether to allow extra tracks beyond the specified modality.
-        additional_output_components (list[Component] | None): Extra Gradio output components.
-        additional_input_components (list[Component] | None): Extra Gradio input components.
         additional_outputs_handler (Callable | None): Handler for additional outputs.
         track_constraints (dict[str, Any] | None): Constraints for media tracks (e.g., resolution).
-        webrtc_component (WebRTC): The underlying Gradio WebRTC component instance.
-        rtc_configuration (dict[str, Any] | None): Configuration for the RTCPeerConnection (e.g., ICE servers).
-        _ui (Blocks): The Gradio Blocks UI instance.
+        rtc_configuration (RTCConfigurationCallable | None): Configuration for the client-side RTCPeerConnection (e.g., ICE servers).
     """
 
     def __init__(
@@ -81,22 +72,19 @@ class Stream(WebRTCConnectionMixin):
 
         Args:
             handler: The function to handle incoming stream data and return output data.
-            additional_outputs_handler: An optional function to handle updates to additional output components.
+            additional_outputs_handler: An optional function to process the AdditionalOutputs emitted by the handler.
             mode: The direction of the stream ('send', 'receive', or 'send-receive').
             modality: The type of media ('video', 'audio', or 'audio-video').
             concurrency_limit: Maximum number of concurrent connections. 'default' maps to 1.
             time_limit: Maximum execution time for the handler function in seconds.
             allow_extra_tracks: If True, allows connections with tracks not matching the modality.
             rtp_params: Optional dictionary of RTP encoding parameters.
-            rtc_configuration: Optional Callable or dictionary for RTCPeerConnection configuration (e.g., ICE servers).
-                               Required when deploying on Colab or Spaces.
+            rtc_configuration: Optional configuration for the client-side RTCPeerConnection (e.g., ICE servers),
+                               given as a dict or a sync/async callable that returns one.
             server_rtc_configuration: Optional dictionary for RTCPeerConnection configuration on the server side. Note
                                       that setting iceServers to be an empty list will mean no ICE servers will be used in the server.
             track_constraints: Optional dictionary of constraints for media tracks (e.g., resolution, frame rate).
             verbose: Whether to print verbose logging on startup.
-
-        Raises:
-            ValueError: If `additional_outputs` are provided without `additional_outputs_handler`.
         """
         WebRTCConnectionMixin.__init__(self)
         self.mode = mode
@@ -152,7 +140,7 @@ class Stream(WebRTCConnectionMixin):
         self, lifespan: Callable[[FastAPI], AbstractAsyncContextManager] | None = None
     ):
         """
-        Create a FastAPI lifespan context manager to print startup messages and check environment.
+        Create a FastAPI lifespan context manager to print a startup message.
 
         Args:
             lifespan: An optional existing lifespan context manager to wrap.
@@ -165,6 +153,9 @@ class Stream(WebRTCConnectionMixin):
         import click
 
         def print_startup_message():
+            # Previously also ran self._check_colab_or_spaces() to fail fast on
+            # Colab/Spaces without a TURN server. Removed with the Gradio auto-UI;
+            # not relevant to a mount-only deployment on your own infra.
             if self.verbose:
                 print(
                     click.style("INFO", fg="green")
