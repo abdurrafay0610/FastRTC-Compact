@@ -26,10 +26,8 @@ keywords = [
   "image",
   "audio processing",
   "video processing",
-  "gradio-custom-component",
 ]
 dependencies = [
-  "gradio>=4.0,<6.0",
   "aiortc",
   "aioice>=0.10.1",
   "audioop-lts;python_version>='3.13'",
@@ -65,8 +63,8 @@ classifiers = [
 # encounter your project in the wild.
 
 [project.urls]
-repository = "https://github.com/gradio-app/fastrtc"
-issues = "https://github.com/gradio-app/fastrtc/issues"
+repository = "https://github.com/abdurrafay0610/FastRTC-Compact"
+issues = "https://github.com/abdurrafay0610/FastRTC-Compact/issues"
 Documentation = "https://fastrtc.org/"
 
 [project.optional-dependencies]
