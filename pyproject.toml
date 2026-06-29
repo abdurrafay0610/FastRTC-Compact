@@ -74,13 +74,6 @@ tts = ["kokoro-onnx"]
 stopword = ["fastrtc-moonshine-onnx", "onnxruntime>=1.20.1"]
 stt = ["fastrtc-moonshine-onnx", "onnxruntime>=1.20.1"]
 
-[tool.hatch.build]
-artifacts = [
-  "/backend/fastrtc/templates",
-  "*.pyi",
-  "/Users/freddyboulton/sources/.venv/lib/python3.12/site-packages/fastrtc/templates",
-]
-
 [tool.hatch.build.targets.wheel]
 packages = ["/backend/fastrtc"]
 
