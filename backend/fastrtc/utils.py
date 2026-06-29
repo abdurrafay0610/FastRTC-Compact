@@ -17,7 +17,7 @@ import av
 import librosa
 import numpy as np
 from fastapi import WebSocket
-from gradio.data_classes import GradioModel, GradioRootModel
+from pydantic import BaseModel, RootModel
 from numpy.typing import NDArray
 from pydub import AudioSegment
 
@@ -32,13 +32,13 @@ class AudioChunk(TypedDict):
     end: int
 
 
-class WebRTCData(GradioModel):
+class WebRTCData(BaseModel):
     webrtc_id: str
     textbox: str = ""
     audio: Any | None = None
 
 
-class WebRTCModel(GradioRootModel):
+class WebRTCModel(RootModel):
     root: WebRTCData | str
 
 
