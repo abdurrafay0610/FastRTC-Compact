@@ -46,6 +46,7 @@ from .utils import (
     wait_for_item,
 )
 
+from .stream import Stream
 
 __all__ = [
     "AsyncStreamHandler",
