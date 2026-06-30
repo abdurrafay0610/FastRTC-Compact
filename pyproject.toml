@@ -31,9 +31,8 @@ dependencies = [
   "aiortc",
   "aioice>=0.10.1",
   "audioop-lts;python_version>='3.13'",
-  "librosa",
   "numpy",
-  "numba>=0.60.0",
+  "soxr",
   "standard-aifc;python_version>='3.13'",
   "standard-sunau;python_version>='3.13'",
 ] # Add dependencies here
