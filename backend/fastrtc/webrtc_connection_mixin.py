@@ -352,6 +352,7 @@ class WebRTCConnectionMixin:
             logger.debug("ICE connection state change %s", pc.iceConnectionState)
             if pc.iceConnectionState == "failed":
                 await pc.close()
+                self.clean_up(body["webrtc_id"])  # was: bare connections.pop + pcs.pop
                 self.connections.pop(body["webrtc_id"], None)
                 self.pcs.pop(body["webrtc_id"], None)
 
