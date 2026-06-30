@@ -229,7 +229,7 @@ async def player_worker_decode(
                 audio_array = audio_to_float32(audio_array)
 
             if first_sample_rate != sample_rate:
-                audio_array = soxr.resample(audio_array, first_sample_rate, sample_rate)
+                audio_array = soxr.resample(audio_array, sample_rate, first_sample_rate)
 
             if audio_array.ndim == 1:
                 audio_array = audio_array.reshape(1, -1)
