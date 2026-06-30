@@ -323,4 +323,4 @@ Creates a new instance of ReplyOnStopWords with the same configuration.
 | :----------------- | :------------------------------------------------------- |
 | `ReplyOnStopWords` | A new `ReplyOnStopWords` instance with identical settings. |
 
-*(Inherits other public methods like `start_up`, `process_audio`, `receive`, `trigger_response`, `async_iterate`, `emit` from `ReplyOnPause`)*
+*(Inherits other public methods like `start_up`, `process_audio`, `receive`, `trigger_response`, `emit` from `ReplyOnPause`)*
