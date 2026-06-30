@@ -278,12 +278,12 @@ class SileroVADModel:
             sr = 16000
             if sr != sampling_rate:
                 try:
-                    import librosa  # type: ignore
+                    import soxr  # type: ignore
                 except ImportError as e:
                     raise RuntimeError(
-                        "Applying the VAD filter requires the librosa if the input sampling rate is not 16000hz"
+                        "Applying the VAD filter requires the soxr if the input sampling rate is not 16000hz"
                     ) from e
-                audio_ = librosa.resample(audio_, orig_sr=sampling_rate, target_sr=sr)
+                audio_ = soxr.resample(audio_, sampling_rate, sr)
 
             if not options:
                 options = SileroVadOptions()
