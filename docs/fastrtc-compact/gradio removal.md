@@ -1,4 +1,4 @@
-# Changelog — fastrtc-compact
+# Gradio removal — fastrtc-compact
 
 `fastrtc-compact` is a branch of [FastRTC](https://github.com/gradio-app/fastrtc) with the
 **Gradio dependency removed**. Upstream FastRTC ships a built-in Gradio UI and a Gradio
