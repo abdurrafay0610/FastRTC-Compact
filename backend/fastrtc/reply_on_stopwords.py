@@ -158,16 +158,14 @@ class ReplyOnStopWords(ReplyOnPause):
             True if a stop word has been detected and a subsequent pause
             satisfying the configured thresholds is detected, False otherwise.
         """
-        import librosa
+        import soxr
 
         duration = len(audio) / sampling_rate
 
         if duration >= self.algo_options.audio_chunk_duration:
             if not state.stop_word_detected:
                 audio_f32 = audio_to_float32(audio)
-                audio_rs = librosa.resample(
-                    audio_f32, orig_sr=sampling_rate, target_sr=16000
-                )
+                audio_rs = soxr.resample(audio_f32, sampling_rate, 16000)
                 if state.post_stop_word_buffer is None:
                     state.post_stop_word_buffer = audio_rs
                 else:
