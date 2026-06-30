@@ -7,14 +7,14 @@ requires = [
 build-backend = "hatchling.build"
 
 [project]
-name = "fastrtc"
-version = "0.0.34"
-description = "The realtime communication library for Python"
+name = "fastrtc-compact"   # was: "fastrtc"
+version = "0.0.1"
+description = "The compact version of the realtime communication library for Python"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.10"
-authors = [{ name = "Freddy Boulton", email = "arugula.ligand.92@icloud.com" }]
+authors = [{ name = "Abdur Rafay", email = "abdurrafay0610@gmail.com" }]
 keywords = [
   "streaming",
   "webrtc",
