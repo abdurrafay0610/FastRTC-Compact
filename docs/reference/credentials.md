@@ -9,27 +9,28 @@ async def get_turn_credentials_async(
 ):
 ```
 
-Retrieves TURN credentials from the specified provider.
-This can be passed directly to the Stream class and it will be called for each
-unique WebRTC connection via the Gradio UI. When mounting to FastAPI, call this function
-yourself to return the credentials to the frontend client, for example, in the
-index route, you can call this function and embed the credentials in the source code of the index.html.
-See the FastRTC spaces at hf.co/fastrtc for an example.
+Asynchronously retrieves TURN credentials from the specified provider.
 
-Acts as a dispatcher function to call the appropriate credential retrieval
+You can pass this function directly to the `Stream` class as `rtc_configuration`, in which
+case it is called for each unique WebRTC connection. When serving your own frontend, you can
+instead call it yourself and embed the returned credentials in your client — for example, in
+your index route, call it and inject the credentials into your `index.html`.
+
+Acts as an async dispatcher function to call the appropriate async credential retrieval
 function based on the method specified.
 
 Args:
 ```
-method: Literal["hf", "twilio", "cloudflare"] | None
+method: Literal["hf", "twilio", "cloudflare"]
     The provider to use. 'hf' uses the deprecated Hugging Face endpoint.
     'cloudflare' uses either Cloudflare keys or the HF endpoint.
-    'twilio' uses the Twilio API. Defaults to "cloudflare".
+    'twilio' is not supported asynchronously by this function yet.
+    Defaults to "cloudflare".
 **kwargs: 
     Additional keyword arguments passed directly to the underlying
-    provider-specific function (e.g., `token`, `ttl` for 'hf';
-    `twilio_sid`, `twilio_token` for 'twilio'; `turn_key_id`,
-    `turn_key_api_token`, `hf_token`, `ttl` for 'cloudflare').
+    provider-specific async function (e.g., `token`, `ttl`, `client` for 'hf';
+    `turn_key_id`, `turn_key_api_token`, `hf_token`, `ttl`, `client` for
+    'cloudflare').
 ```
 
 Returns:
@@ -42,6 +43,8 @@ Raises:
 ```
 ValueError:
     If an invalid method is specified.
+NotImplementedError:
+    If method 'twilio' is requested.
     Also raises exceptions from the underlying provider functions (see their
     docstrings).
 ```
@@ -65,18 +68,18 @@ def get_turn_credentials(
 ```
 
 Retrieves TURN credentials from the specified provider.
-This can be passed directly to the Stream class and it will be called for each
-unique WebRTC connection via the Gradio UI. When mounting to FastAPI, call this function
-yourself to return the credentials to the frontend client, for example, in the
-index route, you can call this function and embed the credentials in the source code of the index.html.
-See the FastRTC spaces at hf.co/fastrtc for an example.
+
+You can pass this function directly to the `Stream` class as `rtc_configuration`, in which
+case it is called for each unique WebRTC connection. When serving your own frontend, you can
+instead call it yourself and embed the returned credentials in your client — for example, in
+your index route, call it and inject the credentials into your `index.html`.
 
 Acts as a dispatcher function to call the appropriate credential retrieval
 function based on the method specified.
 
 Args:
 ```
-method: Literal["hf", "twilio", "cloudflare"] | None
+method: Literal["hf", "twilio", "cloudflare"]
     The provider to use. 'hf' uses the deprecated Hugging Face endpoint.
     'cloudflare' uses either Cloudflare keys or the HF endpoint.
     'twilio' uses the Twilio API. Defaults to "cloudflare".
@@ -107,7 +110,7 @@ Example
 >>> credentials = get_turn_credentials()
 >>> print(credentials)
 >>> # Can pass directly to stream class
->>> stream = Stream(..., rtc_configuration=get_turn_credentials_async)
+>>> stream = Stream(..., rtc_configuration=get_turn_credentials)
 ```
 
 ## `get_cloudflare_turn_credentials_async`
@@ -162,11 +165,11 @@ Exception: If the request to the credential server fails.
 
 Example
 ```python
->>> from fastrtc import get_cloudflare_turn_crendials_async, Stream
+>>> from fastrtc import get_cloudflare_turn_credentials_async, Stream
 >>> credentials = await get_cloudflare_turn_credentials_async()
 >>> print(credentials)
 >>> # Can pass directly to stream class
->>> stream = Stream(..., rtc_configuration=get_turn_credentials_async)
+>>> stream = Stream(..., rtc_configuration=get_cloudflare_turn_credentials_async)
 ```
 
 
@@ -222,11 +225,11 @@ Exception: If the request to the credential server fails.
 
 Example
 ```python
->>> from fastrtc import get_cloudflare_turn_crendials_async, Stream
->>> credentials = await get_cloudflare_turn_credentials_async()
+>>> from fastrtc import get_cloudflare_turn_credentials, Stream
+>>> credentials = get_cloudflare_turn_credentials()
 >>> print(credentials)
 >>> # Can pass directly to stream class
->>> stream = Stream(..., rtc_configuration=get_turn_credentials_async)
+>>> stream = Stream(..., rtc_configuration=get_cloudflare_turn_credentials)
 ```
 
 ## `get_twilio_turn_credentials`
