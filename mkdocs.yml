@@ -1,7 +1,7 @@
 site_name: FastRTC
 site_url: https://fastrtc.org
-repo_name: fastrtc
-repo_url: https://github.com/gradio-app/fastrtc
+repo_name: FastRTC-Compact
+repo_url: https://github.com/abdurrafay0610/FastRTC-Compact
 theme:
   name: material
   custom_dir: overrides
@@ -23,7 +23,6 @@ nav:
     - Audio Streaming: userguide/audio.md
     - Video Streaming: userguide/video.md
     - Audio-Video Streaming: userguide/audio-video.md
-    - Gradio: userguide/gradio.md
     - API: userguide/api.md
   - Cookbook: cookbook.md
   - Deployment: deployment.md
