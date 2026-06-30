@@ -14,8 +14,8 @@ from dataclasses import dataclass
 from typing import Any, Literal, Protocol, TypedDict, cast
 
 import av
-import librosa
 import numpy as np
+import soxr
 from fastapi import WebSocket
 from pydantic import BaseModel, RootModel
 from numpy.typing import NDArray
@@ -229,9 +229,7 @@ async def player_worker_decode(
                 audio_array = audio_to_float32(audio_array)
 
             if first_sample_rate != sample_rate:
-                audio_array = librosa.resample(
-                    audio_array, target_sr=first_sample_rate, orig_sr=sample_rate
-                )
+                audio_array = soxr.resample(audio_array, first_sample_rate, sample_rate)
 
             if audio_array.ndim == 1:
                 audio_array = audio_array.reshape(1, -1)
