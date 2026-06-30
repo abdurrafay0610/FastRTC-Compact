@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>fastrtc-compact echo test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 32rem; margin: 3rem auto; }
+    button { padding: 0.5rem 1rem; margin-right: 0.5rem; }
+    #status { font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>fastrtc-compact echo test</h1>
+  <p>Click Start, allow the mic, speak, then pause — you should hear yourself back.</p>
+
+  <button id="start">Start</button>
+  <button id="stop" disabled>Stop</button>
+  <p>connection: <span id="status">idle</span></p>
+
+  <audio id="audio_out" autoplay></audio>
+
+  <script>
+    let pc, localStream;
+    const statusEl = document.getElementById("status");
+    const audioEl = document.getElementById("audio_out");
+    const startBtn = document.getElementById("start");
+    const stopBtn = document.getElementById("stop");
+
+    async function start() {
+      // Add { iceServers: [...] } here only when you go cross-network (TURN).
+      // On localhost, host candidates work with no ICE servers at all.
+      pc = new RTCPeerConnection();
+
+      // Play whatever the server sends back.
+      pc.addEventListener("track", (evt) => {
+        if (audioEl.srcObject !== evt.streams[0]) {
+          audioEl.srcObject = evt.streams[0];
+        }
+      });
+
+      pc.addEventListener("connectionstatechange", () => {
+        statusEl.textContent = pc.connectionState;
+      });
+
+      // Mic -> server.
+      localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      localStream.getTracks().forEach((t) => pc.addTrack(t, localStream));
+
+      // REQUIRED: the server wires its emit loop onto the data channel in its
+      // @pc.on("datachannel") handler. No channel -> handler never gets fed.
+      // The label is arbitrary (server doesn't filter on it); "text" matches
+      // the FastRTC convention.
+      pc.createDataChannel("text");
+
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      const webrtc_id = Math.random().toString(36).substring(7);
+      const res = await fetch("/webrtc/offer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sdp: offer.sdp,
+          type: offer.type,
+          webrtc_id: webrtc_id,
+        }),
+      });
+
+      const answer = await res.json();
+      await pc.setRemoteDescription(answer);
+
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+    }
+
+    function stop() {
+      // Graceful teardown. To test the post-disconnect emit-loop leak instead,
+      // DON'T click this -- just close the tab or kill the network and watch
+      // the server logs (~30s later the ICE/consent-freshness failure fires).
+      if (localStream) localStream.getTracks().forEach((t) => t.stop());
+      if (pc) pc.close();
+      statusEl.textContent = "closed";
+      startBtn.disabled = false;
+      stopBtn.disabled = true;
+    }
+
+    startBtn.addEventListener("click", start);
+    stopBtn.addEventListener("click", stop);
+  </script>
+</body>
+</html>
