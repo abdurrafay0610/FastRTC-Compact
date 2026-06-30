@@ -7,47 +7,32 @@ Here's a simple example of creating a video stream that flips the video vertical
 
 ```python
 from fastrtc import Stream
-import gradio as gr
 import numpy as np
 
-def detection(image, slider):
+def detection(image):
     return np.flip(image, axis=0)
 
 stream = Stream(
     handler=detection, # (1)
     modality="video", # (2)
     mode="send-receive", # (3)
-    additional_inputs=[
-        gr.Slider(minimum=0, maximum=1, step=0.01, value=0.3) # (4)
-    ],
-    additional_outputs=None, # (5)
-    additional_outputs_handler=None # (6)
 )
 ```
 
 1. See [Handlers](#handlers) for more information.
 2. See [Modalities](#modalities) for more information.
 3. See [Stream Modes](#stream-modes) for more information.
-4. See [Additional Inputs](#additional-inputs) for more information.
-5. See [Additional Outputs](#additional-outputs) for more information.
-6. See [Additional Outputs Handler](#additional-outputs) for more information.
-7. Mount the `Stream` on a `FastAPI` app with `stream.mount(app)` and you can add custom routes to it. See [Custom Routes and Frontend Integration](#custom-routes-and-frontend-integration) for more information.
-8. See [Built-in Routes](#built-in-routes) for more information.
 
 Run:
-=== "UI"
 
-    ```py
-    stream.ui.launch()
-    ```
-=== "FastAPI"
+```py
+from fastapi import FastAPI
 
-    ```py
-    app = FastAPI()
-    stream.mount(app)
+app = FastAPI()
+stream.mount(app)
 
-    # uvicorn app:app --host 0.0.0.0 --port 8000
-    ```
+# uvicorn app:app --host 0.0.0.0 --port 8000
+```
 
 ### Stream Modes
 
@@ -79,29 +64,23 @@ The `handler` argument is the main argument of the `Stream` object. A handler sh
 
 ## Methods
 
-The `Stream` has three main methods:
+The primary method of the `Stream` is `.mount(app)`:
 
-- `.ui.launch()`: Launch a built-in UI for easily testing and sharing your stream. Built with [Gradio](https://www.gradio.app/). You can change the UI by setting the `ui` property of the `Stream` object. Also see the [Gradio guide](../gradio.md) for building Gradio apss with fastrtc.
-- `.fastphone()`: Get a free temporary phone number to call into your stream. Hugging Face token required.
-- `.mount(app)`: Mount the stream on a [FastAPI](https://fastapi.tiangolo.com/) app. Perfect for integrating with your already existing production system or for building a custom UI.
+- `.mount(app)`: Mount the stream on a [FastAPI](https://fastapi.tiangolo.com/) app. Perfect for integrating with your already existing production system or for building a custom UI. It adds the WebRTC (`/webrtc/offer`), WebSocket (`/websocket/offer`), and Twilio telephone (`/telephone/incoming`, `/telephone/handler`) endpoints.
 
 !!! warning
     Websocket docs are only available for audio streams. Telephone docs are only available for audio streams in `send-receive` mode.
 
 ## Additional Inputs
 
-You can add additional inputs to your stream using the `additional_inputs` argument. These inputs will be displayed in the generated Gradio UI and they will be passed to the handler as additional arguments.
+You can pass additional input data to your handler at runtime. For `ReplyOnPause` and `ReplyOnStopWords`, this data is automatically passed to your generator as extra arguments; for `StreamHandler`s, you request it explicitly.
 
 !!! tip
     For audio `StreamHandlers`, please read the special [note](../audio#requesting-inputs) on requesting inputs.
 
-In the automatic gradio UI, these inputs will be the same python type corresponding to the Gradio component. In our case, we used a `gr.Slider` as the additional input, so it will be passed as a float. See the [Gradio documentation](https://www.gradio.app/docs/gradio) for a complete list of components and their corresponding types.
-
 ### Input Hooks
 
-Outside of the gradio UI, you are free to update the inputs however you like by using the `set_input` method of the `Stream` object.
-
-A common pattern is to use a `POST` request to send the updated data.
+You update the inputs by using the `set_input` method of the `Stream` object. A common pattern is to use a `POST` request to send the updated data.
 
 ```python
 from pydantic import BaseModel, Field
@@ -124,12 +103,10 @@ The updated data will be passed to the handler on the **next** call.
 
 ## Additional Outputs
 
-You can return additional output from the handler by returning an instance of `AdditionalOutputs` from the handler.
-Let's modify our previous example to also return the number of detections in the frame.
+You can return additional output from the handler by returning an instance of `AdditionalOutputs`. Let's modify our previous example to also return the number of detections in the frame.
 
 ```python
 from fastrtc import Stream, AdditionalOutputs
-import gradio as gr
 
 def detection(image, conf_threshold=0.3):
     processed_frame, n_objects = process_frame(image, conf_threshold)
@@ -139,26 +116,17 @@ stream = Stream(
     handler=detection,
     modality="video",
     mode="send-receive",
-    additional_inputs=[
-        gr.Slider(minimum=0, maximum=1, step=0.01, value=0.3)
-    ],
-    additional_outputs=[gr.Number()], # (5)
-    additional_outputs_handler=lambda component, n_objects: n_objects
 )
 ```
 
-We added a `gr.Number()` to the additional outputs and we provided an `additional_outputs_handler`.
-
-The `additional_outputs_handler` is **only** needed for the gradio UI. It is a function that takes the current state of the `component` and the instance of `AdditionalOutputs` and returns the updated state of the `component`. In our case, we want to update the `gr.Number()` with the number of detections.
+The handler returns the processed frame along with `AdditionalOutputs(n_objects)`. (`conf_threshold` defaults to `0.3` and can be updated at runtime via the [input hook](#input-hooks) above.)
 
 !!! tip
     Since the webRTC is very low latency, you probably don't want to return an additional output on each frame. 
 
 ### Output Hooks
 
-Outside of the gradio UI, you are free to access the output data however you like by calling the `output_stream` method of the `Stream` object.
-
-A common pattern is to use a `GET` request to get a stream of the output data.
+You access the output data by calling the `output_stream` method of the `Stream` object. A common pattern is to use a `GET` request to get a stream of the output data.
 
 ```python
 from fastapi.responses import StreamingResponse
@@ -200,27 +168,9 @@ async def serve_frontend():
 
 ## Telephone Integration
 
-FastRTC provides built-in telephone support through the `fastphone()` method:
+You can connect a `Stream` to a SIP provider like Twilio to give your application a real phone number. Mounting the stream with `stream.mount(app)` exposes the `/telephone/incoming` webhook and the `/telephone/handler` WebSocket that Twilio connects to.
 
-```python
-# Launch with a temporary phone number
-stream.fastphone(
-    # Optional: If None, will use the default token in your machine or read from the HF_TOKEN environment variable
-    token="your_hf_token",  
-    host="127.0.0.1",
-    port=8000
-)
-```
-
-This will print out a phone number along with your temporary code you can use to connect to the stream. You are limited to **10 minutes** of calls per calendar month.
-
-!!! warning
-
-    See this [section](../audio#telephone-integration) on making sure your stream handler is compatible for telephone usage.
-
-!!! tip
-
-    If you don't have a HF token, you can get one [here](https://huggingface.co/settings/tokens).
+See the [Telephone Integration](../audio#telephone-integration) section of the audio guide for the full Twilio setup, including configuring the webhook and handling inbound and outbound calls.
 
 ## Concurrency
 
