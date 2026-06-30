@@ -9,7 +9,7 @@ build-backend = "hatchling.build"
 [project]
 name = "fastrtc-compact"   # was: "fastrtc"
 version = "0.0.1"
-description = "The compact version of the realtime communication library for Python"
+description = "The compact version of FastRTC, the realtime communication library for Python"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
