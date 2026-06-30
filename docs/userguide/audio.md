@@ -1,4 +1,3 @@
-
 ## Reply On Pause
 
 Typically, you want to run a python function whenever a user has stopped speaking. This can be done by wrapping a python generator with the `ReplyOnPause` class and passing it to the `handler` argument of the `Stream` object. The `ReplyOnPause` class will handle the voice detection and turn taking logic automatically!
@@ -101,7 +100,6 @@ stream = Stream(
     handler=ReplyOnPause(echo, startup_fn=startup),
     modality="audio",
     mode="send-receive",
-    ui_args={"title": "Echo Audio"},
 )
 ```
 
@@ -124,7 +122,7 @@ The API is similar to `ReplyOnPause` with the addition of a `stop_words` paramet
             yield (sampling_rate, numpy_array, "mono")
 
     stream = Stream(
-        handler=ReplyOnStopWords(generate,
+        handler=ReplyOnStopWords(response,
                                 input_sample_rate=16000,
                                 stop_words=["computer"]), # (1)
         modality="audio",
@@ -138,7 +136,7 @@ The API is similar to `ReplyOnPause` with the addition of a `stop_words` paramet
     1. The `stop_words` can be single words or pairs of words. Be sure to include common misspellings of your word for more robust detection, e.g. "llama", "lamma". In my experience, it's best to use two very distinct words like "ok computer" or "hello iris". 
 
 !!! tip "Extra Dependencies"
-    The `ReplyOnStopWords` class requires the `stopword` extra. Run `pip install fastrtc[stopword]` to install it.
+    The `ReplyOnStopWords` class requires the `stopword` extra. Run `pip install "fastrtc-compact[stopword] @ git+https://github.com/abdurrafay0610/FastRTC-Compact.git"` to install it.
 
 !!! warning "English Only"
     The `ReplyOnStopWords` class is currently only supported for English.
@@ -149,7 +147,6 @@ The API is similar to `ReplyOnPause` with the addition of a `stop_words` paramet
 
 === "Code"
     ``` py
-    import gradio as gr
     from fastrtc import StreamHandler
     from queue import Queue
 
@@ -365,7 +362,7 @@ To configure your Twilio phone number:
     ```bash
     ngrok http <port>
     ```
-    Then set your Twilio Voice URL to `https://your-ngrok-subdomain.ngrok.io/telephone/incoming-call`
+    Then set your Twilio Voice URL to `https://your-ngrok-subdomain.ngrok.io/telephone/incoming`
 
 ### Code Example
 
@@ -428,6 +425,4 @@ async def handle_incoming_call(req: Request):
 async def handle_media_stream(websocket: WebSocket):
   # stream is a FastRTC stream defined elsewhere
   await stream.telephone_handler(websocket)
-
-app = gr.mount_gradio_app(app, stream.ui, path="/")
 ```
