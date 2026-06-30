@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Literal, Protocol
 
 import click
-import librosa
+import soxr
 import numpy as np
 from numpy.typing import NDArray
 
@@ -34,9 +34,7 @@ class MoonshineSTT(STTModel):
         sr, audio_np = audio  # type: ignore
         audio_np = audio_to_float32(audio_np)
         if sr != 16000:
-            audio_np: NDArray[np.float32] = librosa.resample(
-                audio_np, orig_sr=sr, target_sr=16000
-            )
+            audio_np: NDArray[np.float32] = soxr.resample(audio_np, sr, 16000)
         if audio_np.ndim == 1:
             audio_np = audio_np.reshape(1, -1)
         tokens = self.model.generate(audio_np)
