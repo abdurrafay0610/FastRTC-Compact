@@ -6,7 +6,7 @@
 <a href="https://github.com/abdurrafay0610/FastRTC-Compact" target="_blank"><img alt="GitHub" src="https://img.shields.io/badge/github-FastRTC--Compact-white?logo=github&logoColor=black"></a>
 </div>
 
-Turn any Python function into a real-time audio and video stream over WebRTC or WebSockets — without the Gradio, librosa, and HuggingFace-Spaces baggage of upstream.
+Turn any Python function into a real-time audio and video stream over WebRTC or WebSockets — without the Gradio, librosa and their dependencies baggage of upstream.
 
 > **This is a fork.** It tracks FastRTC `v0.0.34` and strips everything not needed for a
 > production, bring-your-own-frontend deployment. The public `Stream` API and the `fastrtc`
