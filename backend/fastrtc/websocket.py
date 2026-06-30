@@ -5,7 +5,7 @@ import logging
 from collections.abc import Awaitable, Callable
 from typing import Any, cast
 
-import librosa
+import soxr
 import numpy as np
 from anyio.to_thread import run_sync
 from fastapi import WebSocket
@@ -43,9 +43,7 @@ def convert_to_mulaw(
     audio_data = audio_to_float32(audio_data)
 
     if original_rate != target_rate:
-        audio_data = librosa.resample(
-            audio_data, orig_sr=original_rate, target_sr=target_rate
-        )
+        audio_data = soxr.resample(audio_data, original_rate, target_rate)
 
     audio_data = audio_to_int16(audio_data)
 
@@ -119,11 +117,7 @@ class WebSocketHandler:
                         and self.stream_handler.input_sample_rate != 8000
                     ):
                         audio_array = audio_to_float32(audio_array)
-                        audio_array = librosa.resample(
-                            audio_array,
-                            orig_sr=8000,
-                            target_sr=self.stream_handler.input_sample_rate,
-                        )
+                        audio_array = soxr.resample(audio_array, 8000, self.stream_handler.input_sample_rate)
                         audio_array = audio_to_int16(audio_array)
                     try:
                         if isinstance(self.stream_handler, AsyncStreamHandler):
