@@ -60,7 +60,8 @@ The `ReplyOnPause` handler can also send the following `log` messages.
 ```
 
 !!! tip
-    When using WebRTC, the messages will be encoded as strings, so parse as JSON before using.
+    The server returns a 200 status code even on failure, so check the `status`
+    field in the response body rather than the HTTP status to detect errors.
 
 ### Additional Inputs
 
