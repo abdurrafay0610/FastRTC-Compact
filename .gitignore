@@ -17,3 +17,4 @@ demo/scratch
 .DS_Store
 .venv*
 .env
+/.pypirc
