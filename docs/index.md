@@ -1,45 +1,46 @@
 <div style='text-align: center; margin-bottom: 1rem; display: flex; justify-content: center; align-items: center;'>
-    <h1 style='color: white; margin: 0;'>FastRTC</h1>
-    <img src="/fastrtc_logo.png" 
-         onerror="this.onerror=null; this.src='https://huggingface.co/datasets/freddyaboulton/bucket/resolve/main/fastrtc_logo.png';" 
-         alt="FastRTC Logo" 
+    <img src="fastrtc_logo.png"
+         alt="FastRTC-Compact Logo"
          style="height: 40px; margin-right: 10px;">
+    <h1 style='margin: 0;'>FastRTC-Compact</h1>
 </div>
 
-<div style="display: flex; flex-direction: row; justify-content: center">
-<img style="display: block; padding-right: 5px; height: 20px;" alt="Static Badge" src="https://img.shields.io/pypi/v/fastrtc"> 
-<a href="https://github.com/gradio-app/fastrtc" target="_blank"><img alt="Static Badge" src="https://img.shields.io/badge/github-white?logo=github&logoColor=black"></a>
+<div style="display: flex; flex-direction: row; justify-content: center; gap: 5px;">
+<a href="https://github.com/abdurrafay0610/FastRTC-Compact" target="_blank"><img alt="GitHub" src="https://img.shields.io/badge/github-FastRTC--Compact-white?logo=github&logoColor=black"></a>
+<img alt="License" src="https://img.shields.io/badge/license-MIT-green">
 </div>
 
 <h3 style='text-align: center'>
-The Real-Time Communication Library for Python. 
+The lightweight real-time communication library for Python.
 </h3>
 
-Turn any python function into a real-time audio and video stream over WebRTC or WebSockets.
+Turn any Python function into a real-time audio or video stream over WebRTC or WebSockets — without the heavyweight dependencies.
 
-<video src="https://github.com/user-attachments/assets/a297aa1e-ff42-448c-a58c-389b0a575d4d" controls></video>
+FastRTC-Compact is a fork of [FastRTC](https://github.com/gradio-app/fastrtc) (v0.0.34) built for production deployments that serve their own frontend. It removes Gradio (~312 MB) and the librosa/numba resampling stack (~400 MB, replaced with [soxr](https://github.com/dofuuz/python-soxr)), cutting the installed footprint from roughly **1.05 GB to ~345 MB** while keeping the full WebRTC/WebSocket core, voice activity detection, turn-taking logic, and Twilio dial-in support.
+
+It is a **drop-in replacement**: the import name is still `fastrtc`, so existing code works unchanged.
 
 ## Installation
 
-```bash
-pip install fastrtc
-```
-
-to use built-in pause detection (see [ReplyOnPause](userguide/audio/#reply-on-pause)), speech-to-text (see [Speech To Text](userguide/audio/#speech-to-text)), and text to speech (see [Text To Speech](userguide/audio/#text-to-speech)), install the `vad`, `stt`, and `tts` extras:
+FastRTC-Compact is not on PyPI yet — install directly from GitHub:
 
 ```bash
-pip install "fastrtc[vad, stt, tts]"
+pip install "fastrtc-compact @ git+https://github.com/abdurrafay0610/FastRTC-Compact.git"
 ```
+
+To use built-in pause detection (see [ReplyOnPause](userguide/audio/#reply-on-pause)), speech-to-text (see [Speech To Text](userguide/audio/#speech-to-text)), and text-to-speech (see [Text To Speech](userguide/audio/#text-to-speech)), install the `vad`, `stt`, and `tts` extras:
+
+```bash
+pip install "fastrtc-compact[vad, stt, tts] @ git+https://github.com/abdurrafay0610/FastRTC-Compact.git"
+```
+
+!!! warning "One fastrtc per environment"
+    Do not install `fastrtc-compact` and the upstream `fastrtc` package in the same
+    environment — both provide the `fastrtc` import and will clash.
 
 ## Quickstart
 
-Import the [Stream](userguide/streams) class and pass in a [handler](userguide/streams/#handlers).
-The `Stream` has three main methods:
-
-- `.ui.launch()`: Launch a built-in UI for easily testing and sharing your stream. Built with [Gradio](https://www.gradio.app/).
-- `.fastphone()`: Get a free temporary phone number to call into your stream. Hugging Face token required.
-- `.mount(app)`: Mount the stream on a [FastAPI](https://fastapi.tiangolo.com/) app. Perfect for integrating with your already existing production system.
-
+Import the [Stream](userguide/streams) class, pass in a [handler](userguide/streams/#handlers), and mount it on a [FastAPI](https://fastapi.tiangolo.com/) app with `.mount(app)` — perfect for integrating with your existing production system and serving your own frontend.
 
 === "Echo Audio"
 
@@ -55,7 +56,7 @@ The `Stream` has three main methods:
 
     stream = Stream(
         handler=ReplyOnPause(echo),
-        modality="audio", 
+        modality="audio",
         mode="send-receive",
     )
     ```
@@ -106,87 +107,53 @@ The `Stream` has three main methods:
     )
     ```
 
-=== "Object Detection"
+Run it by mounting the stream on a FastAPI app:
 
-    ```python
-    from fastrtc import Stream
-    import gradio as gr
-    import cv2
-    from huggingface_hub import hf_hub_download
-    from .inference import YOLOv10
+```py
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
-    model_file = hf_hub_download(
-        repo_id="onnx-community/yolov10n", filename="onnx/model.onnx"
-    )
-    
-    # git clone https://huggingface.co/spaces/fastrtc/object-detection
-    # for YOLOv10 implementation
-    model = YOLOv10(model_file)
+app = FastAPI()
+stream.mount(app)
 
-    def detection(image, conf_threshold=0.3):
-        image = cv2.resize(image, (model.input_width, model.input_height))
-        new_image = model.detect_objects(image, conf_threshold)
-        return cv2.resize(new_image, (500, 500))
+# Optional: serve your own frontend
+@app.get("/")
+async def _():
+    return HTMLResponse(content=open("index.html").read())
 
-    stream = Stream(
-        handler=detection,
-        modality="video", 
-        mode="send-receive",
-        additional_inputs=[
-            gr.Slider(minimum=0, maximum=1, step=0.01, value=0.3)
-        ]
-    )
-    ```
+# uvicorn app:app --host 0.0.0.0 --port 8000
+```
 
-Run:
-=== "UI"
-
-    ```py
-    stream.ui.launch()
-    ```
-
-=== "Telephone"
-
-    ```py
-    stream.fastphone()
-    ```
-
-=== "FastAPI"
-
-    ```py
-    app = FastAPI()
-    stream.mount(app)
-
-    # Optional: Add routes
-    @app.get("/")
-    async def _():
-        return HTMLResponse(content=open("index.html").read())
-
-    # uvicorn app:app --host 0.0.0.0 --port 8000
-    ```
+`mount()` registers `/webrtc/offer` (WebRTC signaling), `/websocket/offer` (WebSocket streaming), and the Twilio dial-in routes `/telephone/incoming` and `/telephone/handler` — point your own Twilio number at the stream for phone support.
 
 Learn more about the [Stream](userguide/streams) in the user guide.
+
 ## Key Features
 
-:speaking_head:{ .lg } Automatic Voice Detection and Turn Taking built-in, only worry about the logic for responding to the user.
+:material-feather:{ .lg } **Lightweight** — ~345 MB installed vs ~1.05 GB for upstream FastRTC. No Gradio, no librosa/numba; audio resampling handled by soxr.
 
-:material-laptop:{ .lg } Automatic UI - Use the `.ui.launch()` method to launch the webRTC-enabled built-in Gradio UI.
+:material-swap-horizontal:{ .lg } **Drop-in replacement** — imports as `fastrtc`, so switching requires no code changes.
 
-:material-lightning-bolt:{ .lg } Automatic WebRTC Support - Use the `.mount(app)` method to mount the stream on a FastAPI app and get a webRTC endpoint for your own frontend! 
+:speaking_head:{ .lg } **Automatic Voice Detection and Turn Taking** built-in — only worry about the logic for responding to the user.
 
-:simple-webstorm:{ .lg } Websocket Support - Use the `.mount(app)` method to mount the stream on a FastAPI app and get a websocket endpoint for your own frontend! 
+:material-lightning-bolt:{ .lg } **WebRTC Support** — `.mount(app)` adds a WebRTC endpoint to a FastAPI app for your own frontend.
 
-:telephone:{ .lg } Automatic Telephone Support - Use the `fastphone()` method of the stream to launch the application and get a free temporary phone number!
+:simple-webstorm:{ .lg } **WebSocket Support** — the same `.mount(app)` adds a WebSocket endpoint.
 
-:robot:{ .lg } Completely customizable backend - A `Stream` can easily be mounted on a FastAPI app so you can easily extend it to fit your production application. See the [Talk To Claude](https://huggingface.co/spaces/fastrtc/talk-to-claude) demo for an example on how to serve a custom JS frontend.
+:telephone:{ .lg } **Telephone Support** — Twilio dial-in routes are mounted automatically; connect your own Twilio number.
 
+:robot:{ .lg } **Completely customizable backend** — a `Stream` mounts on any FastAPI app, so you can extend it to fit your production application.
+
+## Roadmap
+
+- Optional `huggingface_hub` dependency with the Silero VAD model vendored as package data
+- Streaming STT, TTS, and LLM support
+- [Pipecat smart_turn](https://github.com/pipecat-ai/smart-turn) integration for smarter pause detection
 
 ## Examples
-See the [cookbook](/cookbook).
 
-Follow and join our [organization](https://huggingface.co/fastrtc) on Hugging Face!
+See the [cookbook](cookbook.md).
 
-<div style="display: flex; flex-direction: row; justify-content: center; align-items: center; max-width: 600px; margin: 0 auto;">
-    <img style="display: block; height: 100px; margin-right: 20px;" src="/hf-logo-with-title.svg">
-    <img style="display: block; height: 100px;" src="/gradio-logo-with-title.svg">
-</div>
+## Credits
+
+FastRTC-Compact is based on [FastRTC](https://github.com/gradio-app/fastrtc) by Freddy Boulton. MIT licensed; original copyright preserved.
