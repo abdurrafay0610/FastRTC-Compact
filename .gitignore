@@ -18,3 +18,4 @@ demo/scratch
 .venv*
 .env
 /.pypirc
+.idea/
