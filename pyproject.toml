@@ -80,7 +80,7 @@ classifiers = [
 [project.urls]
 repository = "https://github.com/abdurrafay0610/FastRTC-Compact"
 issues = "https://github.com/abdurrafay0610/FastRTC-Compact/issues"
-Documentation = "https://fastrtc.org/"
+Documentation = "https://abdurrafay0610.github.io/FastRTC-Compact/"
 
 [project.optional-dependencies]
 dev = ["build", "twine", "httpx", "pytest", "pytest-asyncio"]
