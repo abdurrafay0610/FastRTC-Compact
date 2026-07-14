@@ -93,7 +93,7 @@ stt = ["fastrtc-moonshine-onnx", "onnxruntime>=1.20.1"]
 packages = ["/backend/fastrtc"]
 
 [tool.hatch.build.targets.sdist]
-exclude = ["/demo", "/docs", "/test", "/overrides", "/.github"]
+exclude = ["/demo", "/docs", "/test", "/overrides", "/.github", "/.idea", "/justfile", "/mkdocs.yml", "/requirements.txt", "/.gitignore", "/CNAME", ]
 
 [tool.pytest.ini_options]
 testpaths = ["test/"]
