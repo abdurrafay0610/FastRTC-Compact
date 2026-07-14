@@ -38,13 +38,13 @@ The result is a much smaller dependency tree and image footprint, suitable for p
 This fork is distributed from git (it is **not** published to PyPI under this name):
 
 ```bash
-pip install "git+https://github.com/abdurrafay0610/FastRTC-Compact.git"
+pip install fastrtc-compact
 ```
 
-To use built-in pause detection (see [ReplyOnPause](https://fastrtc.org/userguide/audio/#reply-on-pause)) and text to speech (see [Text To Speech](https://fastrtc.org/userguide/audio/#text-to-speech)), add the `vad` and `tts` extras:
+To use built-in pause detection (see [ReplyOnPause](https://fastrtc.org/userguide/audio/#reply-on-pause)) and text to speech (see [Text To Speech](https://fastrtc.org/userguide/audio/#text-to-speech)), add the `vad`, `stt` and `tts` extras:
 
 ```bash
-pip install "fastrtc-compact[vad,tts] @ git+https://github.com/abdurrafay0610/FastRTC-Compact.git"
+pip install fastrtc-compact[vad, stt, tts]
 ```
 
 Other optional extras: `stt`, `stopword`.
