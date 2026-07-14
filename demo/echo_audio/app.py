@@ -7,7 +7,7 @@ purpose, since your ReplyOnSoftHardPause inherits from it -- this is the closest
 minimal stand-in for your production handler.
 
 Run:
-    pip install -e ".[vad]" uvicorn        # from your fork checkout
+    pip install fastrtc-compact[vad] uvicorn       # from your fork checkout
     uvicorn app:app --host 127.0.0.1 --port 8000
     # open http://localhost:8000
 """
