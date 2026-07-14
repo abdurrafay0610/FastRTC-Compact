@@ -160,7 +160,7 @@ class Stream(WebRTCConnectionMixin):
                 print(
                     click.style("INFO", fg="green")
                     + ":\t  Visit "
-                    + click.style("https://fastrtc.org/userguide/api/", fg="cyan")
+                    + click.style("https://abdurrafay0610.github.io/FastRTC-Compact/userguide/api/", fg="cyan")
                     + " for WebRTC or Websocket API docs."
                 )
 
