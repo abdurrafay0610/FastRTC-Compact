@@ -1,5 +1,8 @@
 {#-
-This file was automatically generated - do not edit
+Header override for FastRTC-Compact.
+Based on mkdocs-material's header partial; the only customization is the
+project-links block marked below. If a mkdocs-material upgrade changes the
+header, re-copy the stock partial and re-apply that block.
 -#}
 {% set class = "md-header" %}
 {% if "navigation.tabs.sticky" in features %}
@@ -47,21 +50,15 @@ This file was automatically generated - do not edit
         {% include "partials/alternate.html" %}
         {% endif %}
 
-        <div style="display: flex; align-items: center; margin-right: 1rem;">
-            <a href="https://hf.co/fastrtc" target="_blank" rel="noopener noreferrer">
-                <img src="/hf-logo.svg"
-                    onerror="this.onerror=null; this.src='https://huggingface.co/datasets/freddyaboulton/bucket/resolve/main/hf-logo.svg';"
-                    style="height: 24px; margin-right: 10px;">
-            </a>
-            <a href="https://gradio.app" target="_blank" rel="noopener noreferrer">
-                <img src="/gradio-logo.svg"
-                    onerror="this.onerror=null; this.src='https://huggingface.co/datasets/freddyaboulton/bucket/resolve/main/gradio-logo.svg';"
-                    style="height: 24px; margin-right: 10px;">
-            </a>
-            <a href="https://discord.gg/TSWU7HyaYu" target="_blank" rel="noopener noreferrer">
-                <img src="/Discord-Symbol-White.svg" style="height: 16px; margin-right: 10px;">
+        {#- Project links (FastRTC-Compact customization) -#}
+        <div style="display: flex; align-items: center; margin-right: 0.6rem;">
+            <a href="https://pypi.org/project/fastrtc-compact/" target="_blank" rel="noopener noreferrer"
+                title="fastrtc-compact on PyPI"
+                style="display: inline-flex; align-items: center; width: 1.1rem; height: 1.1rem; color: currentColor;">
+                {% include ".icons/fontawesome/brands/python.svg" %}
             </a>
         </div>
+        {#- End project links -#}
 
         {% if "material/search" in config.plugins %}
         <label class="md-header__button md-icon" for="__search">

@@ -28,11 +28,27 @@ keywords = [
   "video processing",
 ]
 dependencies = [
+  # WebRTC core
   "aiortc",
   "aioice>=0.10.1",
-  "audioop-lts;python_version>='3.13'",
+  # Web framework surface (Stream.mount, Body model, WebSocket handling)
+  "fastapi",
+  "pydantic",
+  "anyio",
+  # Audio processing (utils.py, websocket.py)
   "numpy",
   "soxr",
+  "pydub",
+  # TURN credential helpers (credentials.py, imported by __init__)
+  "httpx",
+  # Startup message styling (stream.py) — or drop by replacing click.style with plain print
+  "click",
+  # Model downloads (silero VAD / TTS) — hard import today via __init__;
+  # moves to [vad]/[tts] extras once the lazy-import refactor lands.
+  # <1.0 pin avoids the hf-xet/CLI stack that balloons 1.x installs (~15MB -> ~44MB).
+  "huggingface_hub<1.0",
+  # Python 3.13 stdlib backports
+  "audioop-lts;python_version>='3.13'",
   "standard-aifc;python_version>='3.13'",
   "standard-sunau;python_version>='3.13'",
 ] # Add dependencies here
