@@ -22,16 +22,16 @@ It is a **drop-in replacement**: the import name is still `fastrtc`, so existing
 
 ## Installation
 
-FastRTC-Compact is not on PyPI yet — install directly from GitHub:
+FastRTC-Compact is now available on PyPI:
 
 ```bash
-pip install "fastrtc-compact @ git+https://github.com/abdurrafay0610/FastRTC-Compact.git"
+pip install fastrtc-compact
 ```
 
 To use built-in pause detection (see [ReplyOnPause](userguide/audio/#reply-on-pause)), speech-to-text (see [Speech To Text](userguide/audio/#speech-to-text)), and text-to-speech (see [Text To Speech](userguide/audio/#text-to-speech)), install the `vad`, `stt`, and `tts` extras:
 
 ```bash
-pip install "fastrtc-compact[vad, stt, tts] @ git+https://github.com/abdurrafay0610/FastRTC-Compact.git"
+pip install fastrtc-compact[vad, stt, tts]
 ```
 
 !!! warning "One fastrtc per environment"
