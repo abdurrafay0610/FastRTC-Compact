@@ -3,8 +3,9 @@ from typing import Optional
 
 import numpy as np
 import onnxruntime as ort
-from transformers import WhisperFeatureExtractor
 import soxr
+
+from .whisper_features import WhisperFeatures
 
 
 @dataclass
@@ -33,18 +34,18 @@ class SmartTurnV3Detector:
         self,
         onnx_model_path: str,
         threshold: float = 0.5,
-        target_sample_rate: int = 16000,
-        max_audio_seconds: float = 8.0,
+        max_audio_seconds: int = 8,
         providers: Optional[list[str]] = None,
     ):
         self.onnx_model_path = onnx_model_path
         self.threshold = threshold
-        self.target_sample_rate = target_sample_rate
-        self.max_audio_seconds = max_audio_seconds
 
-        self.feature_extractor = WhisperFeatureExtractor(
-            chunk_length=int(max_audio_seconds)
-        )
+        # Value Fixed at 16k by the model: Smart Turn v3 consumes Whisper log-mel features,
+        # which are defined at 16 kHz (400-sample window, 160-sample hop).
+        # target_sample_rate is a parameter with exactly one valid value.
+        self.target_sample_rate = 16000
+
+        self.feature_extractor = WhisperFeatures(chunk_length=max_audio_seconds)
 
         self.session = self._build_session(
             onnx_model_path=onnx_model_path,
@@ -100,18 +101,7 @@ class SmartTurnV3Detector:
 
         audio = self._prepare_audio(audio, sample_rate)
 
-        inputs = self.feature_extractor(
-            audio,
-            sampling_rate=self.target_sample_rate,
-            return_tensors="np",
-            padding="max_length",
-            max_length=int(self.max_audio_seconds * self.target_sample_rate),
-            truncation=True,
-            do_normalize=True,
-        )
-
-        input_features = inputs.input_features.squeeze(0).astype(np.float32)
-        input_features = np.expand_dims(input_features, axis=0)
+        input_features = self.feature_extractor(audio)  # already (1, 80, 800) float32
 
         outputs = self.session.run(
             None,
@@ -245,7 +235,7 @@ class SmartTurnV3Detector:
         If audio is longer than max_audio_seconds, keep only the last N seconds.
         """
 
-        max_samples = int(self.max_audio_seconds * self.target_sample_rate)
+        max_samples = self.feature_extractor.n_samples
 
         if len(audio) > max_samples:
             return audio[-max_samples:]
