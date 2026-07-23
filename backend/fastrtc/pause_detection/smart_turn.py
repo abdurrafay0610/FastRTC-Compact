@@ -34,18 +34,20 @@ class SmartTurnV3Detector:
         self,
         onnx_model_path: str,
         threshold: float = 0.5,
-        max_audio_seconds: int = 8,
         providers: Optional[list[str]] = None,
     ):
         self.onnx_model_path = onnx_model_path
         self.threshold = threshold
 
+
+
         # Value Fixed at 16k by the model: Smart Turn v3 consumes Whisper log-mel features,
         # which are defined at 16 kHz (400-sample window, 160-sample hop).
         # target_sample_rate is a parameter with exactly one valid value.
+        self.max_audio_seconds =  8
         self.target_sample_rate = 16000
 
-        self.feature_extractor = WhisperFeatures(chunk_length=max_audio_seconds)
+        self.feature_extractor = WhisperFeatures(chunk_length=self.max_audio_seconds)
 
         self.session = self._build_session(
             onnx_model_path=onnx_model_path,
