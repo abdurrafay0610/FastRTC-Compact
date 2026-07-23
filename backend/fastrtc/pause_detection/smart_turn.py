@@ -65,18 +65,8 @@ class SmartTurnV3Detector:
         providers: Optional[list[str]] = None,
     ):
 
-        try:
-            import onnxruntime
-        except ImportError as e:
-            raise RuntimeError(
-                "Smart Turn detection requires the onnxruntime package. "
-                "Install fastrtc-compact[smart-turn]."
-            ) from e
-
         self.onnx_model_path = onnx_model_path
         self.threshold = threshold
-
-
 
         # Value Fixed at 16k by the model: Smart Turn v3 consumes Whisper log-mel features,
         # which are defined at 16 kHz (400-sample window, 160-sample hop).
@@ -96,6 +86,15 @@ class SmartTurnV3Detector:
         onnx_model_path: str,
         providers: Optional[list[str]] = None,
     ) -> ort.InferenceSession:
+
+        try:
+            import onnxruntime as ort
+        except ImportError as e:
+            raise RuntimeError(
+                "Smart Turn detection requires the onnxruntime package. "
+                "Install fastrtc-compact[smart-turn]."
+            ) from e
+
         session_options = ort.SessionOptions()
         session_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
         session_options.inter_op_num_threads = 1
