@@ -13,7 +13,7 @@ from .pause_detection import (
     SileroVadOptions,
     get_silero_model,
     get_smart_turn_model,
-    SmartTurnV3Detector,
+    SmartTurnV3Detector, SmartTurnResult,
 )
 from .reply_on_pause import AlgoOptions, ReplyOnPause
 from .reply_on_stopwords import ReplyOnStopWords
@@ -88,6 +88,8 @@ __all__ = [
     "get_silero_model",
     "SileroVadOptions",
     "get_smart_turn_model",
+    "SmartTurnResult",
+    "SmartTurnV3Detector",
     "VideoStreamHandler",
     "CloseStream",
     "get_current_context",
