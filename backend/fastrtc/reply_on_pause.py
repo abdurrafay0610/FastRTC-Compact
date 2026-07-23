@@ -124,6 +124,7 @@ class ReplyOnPause(StreamHandler):
         input_sample_rate: int = 48000,
         model: PauseDetectionModel | None = None,
         needs_args: bool = False,
+        enable_smart_turn: bool = False,
     ):
         """
         Initializes the ReplyOnPause handler.
@@ -142,6 +143,7 @@ class ReplyOnPause(StreamHandler):
             input_sample_rate: The expected sample rate of incoming audio.
             model: An optional pre-initialized VAD model instance.
             needs_args: Whether the reply function expects additional arguments.
+            enable_smart_turn: If this is true, smart-turn will be used in pause detection, otherwise it will not. Default is False
         """
         super().__init__(
             expected_layout,
@@ -162,6 +164,11 @@ class ReplyOnPause(StreamHandler):
         self.model_options = model_options
         self.algo_options = algo_options or AlgoOptions()
         self.startup_fn = startup_fn
+
+        # If this is true, smart-turn will be used in pause detection, otherwise it will not
+        # By default it is False
+        self.enable_smart_turn = enable_smart_turn
+
         self.needs_args = needs_args
 
     @property
