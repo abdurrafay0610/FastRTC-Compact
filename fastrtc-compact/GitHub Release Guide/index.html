@@ -1,0 +1,1258 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://abdurrafay0610.github.io/FastRTC-Compact/fastrtc-compact/GitHub%20Release%20Guide/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../fastrtc_logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>GitHub Tag & Release Guide — fastrtc-compact - FastRTC-Compact</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="fastrtc-dark" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#github-tag-release-guide-fastrtc-compact" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+    <nav class="md-header__inner md-grid" aria-label="Header">
+        <a href="../.." title="FastRTC-Compact"
+            class="md-header__button md-logo" aria-label="FastRTC-Compact" data-md-component="logo">
+            
+  <img src="../../fastrtc_logo.png" alt="logo">
+
+        </a>
+        <label class="md-header__button md-icon" for="__drawer">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        </label>
+        <div class="md-header__title" data-md-component="header-title">
+            <div class="md-header__ellipsis">
+                <div class="md-header__topic">
+                    <span class="md-ellipsis">
+                        FastRTC-Compact
+                    </span>
+                </div>
+                <div class="md-header__topic" data-md-component="header-topic">
+                    <span class="md-ellipsis">
+                        
+                        GitHub Tag &amp; Release Guide — fastrtc-compact
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        <div style="display: flex; align-items: center; margin-right: 0.6rem;">
+            <a href="https://pypi.org/project/fastrtc-compact/" target="_blank" rel="noopener noreferrer"
+                title="fastrtc-compact on PyPI"
+                style="display: inline-flex; align-items: center; width: 1.1rem; height: 1.1rem; color: currentColor;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+            </a>
+        </div>
+        
+        <div class="md-header__source">
+            <a href="https://github.com/abdurrafay0610/FastRTC-Compact" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastRTC-Compact
+  </div>
+</a>
+        </div>
+        
+    </nav>
+    
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FastRTC-Compact" class="md-nav__button md-logo" aria-label="FastRTC-Compact" data-md-component="logo">
+      
+  <img src="../../fastrtc_logo.png" alt="logo">
+
+    </a>
+    FastRTC-Compact
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/abdurrafay0610/FastRTC-Compact" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FastRTC-Compact
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../userguide/streams/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../userguide/audio/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../userguide/video/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Video Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../userguide/audio-video/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio-Video Streaming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../userguide/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cookbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cookbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plugin Ecosystem
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Plugin Ecosystem
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../text_to_speech_gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Text-to-Speech Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../speech_to_text_gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Speech-to-Text Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../turn_taking_gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Turn-taking Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frequently Asked Questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/stream/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/reply_on_pause/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pause Detection Handlers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/stream_handlers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stream Handlers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/utils/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utils
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TURN Credentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-tags-vs-releases-know-which-one-youre-making" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tags vs Releases — know which one you're making
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-per-release-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Per-release procedure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Per-release procedure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-create-an-annotated-tag-on-the-release-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Create an annotated tag on the release commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-push-the-tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Push the tag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-draft-the-github-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Draft the GitHub Release
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-what-updates-automatically-after-publishing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 What updates automatically after publishing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-fixing-mistakes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Fixing mistakes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-per-release-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Per-release checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-one-time-items-state-as-of-2026-07-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. One-time items (state as of 2026-07-14)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="github-tag-release-guide-fastrtc-compact">GitHub Tag &amp; Release Guide — fastrtc-compact</h1>
+<p>Scope: <strong>git tags and GitHub Releases.</strong> Version numbering is in
+<code>VERSIONING.md</code>; building and uploading to PyPI is in <code>PYPI-RELEASE.md</code>.
+Order per release: VERSIONING checklist → PyPI upload → this guide.</p>
+<p><strong>Repo-specific quirk:</strong> the remote in this clone is named <strong><code>github</code></strong>, not
+<code>origin</code>. Every command below uses <code>github</code>; copy-pasted commands from the
+internet that say <code>origin</code> will fail with <em>"'origin' does not appear to be a
+git repository"</em>. (Optional one-time fix to make the world's copy-paste work:
+<code>git remote rename github origin</code>.)</p>
+<hr />
+<h2 id="1-tags-vs-releases-know-which-one-youre-making">1. Tags vs Releases — know which one you're making</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Git <strong>tag</strong></th>
+<th>GitHub <strong>Release</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it is</td>
+<td>A named pointer to one commit, stored in git itself</td>
+<td>A GitHub object layered on a tag: title, notes, attached files</td>
+</tr>
+<tr>
+<td>Created by</td>
+<td><code>git tag</code> + <code>git push</code></td>
+<td>GitHub web UI or <code>gh</code> CLI</td>
+</tr>
+<tr>
+<td>Who sees it</td>
+<td>Anyone cloning the repo</td>
+<td>The Releases page, repo sidebar, watchers get notified</td>
+</tr>
+<tr>
+<td>Powers</td>
+<td>Reproducible installs (<code>...git@v0.0.1</code>)</td>
+<td>Docs header version badge, changelog visibility, "latest release"</td>
+</tr>
+</tbody>
+</table>
+<p>A tag without a Release is invisible to most visitors. A Release cannot exist
+without a tag. <strong>Make both, every time.</strong></p>
+<p>Naming convention for this project: <strong><code>v</code> prefix</strong> — <code>v0.0.1</code>, <code>v0.1.0</code>.
+(Upstream's unprefixed tags were deleted; stay consistent from here.)</p>
+<hr />
+<h2 id="2-per-release-procedure">2. Per-release procedure</h2>
+<p>Preconditions: the release commit (version bump + CHANGES.md) is pushed to
+<code>main</code>, and the PyPI upload succeeded.</p>
+<h3 id="21-create-an-annotated-tag-on-the-release-commit">2.1 Create an annotated tag on the release commit</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v0.0.2<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Short summary of the release&quot;</span>
+</span></code></pre></div>
+<ul>
+<li><code>-a</code> makes an <em>annotated</em> tag (has author, date, message) — always use it
+  for releases; lightweight tags (no <code>-a</code>) are for private bookmarks.</li>
+<li>Run this with the release commit checked out (normally: right after pushing
+  it, so <code>HEAD</code> is correct). To tag an older commit explicitly:
+  <code>git tag -a v0.0.2 -m "..." &lt;commit-sha&gt;</code></li>
+</ul>
+<h3 id="22-push-the-tag">2.2 Push the tag</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>push<span class="w"> </span>github<span class="w"> </span>v0.0.2
+</span></code></pre></div>
+<p>Plain <code>git push</code> does <strong>not</strong> push tags — this explicit push is required.
+Verify it arrived:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>ls-remote<span class="w"> </span>--tags<span class="w"> </span>github
+</span></code></pre></div>
+<h3 id="23-draft-the-github-release">2.3 Draft the GitHub Release</h3>
+<p>Web UI (fine at this project's release frequency):</p>
+<ol>
+<li>Repo → <strong>Releases</strong> → <strong>Draft a new release</strong></li>
+<li><em>Choose a tag</em> → select the tag just pushed (do NOT type a new name here —
+   that creates a second tag)</li>
+<li><em>Release title</em>: <code>v0.0.2</code></li>
+<li><em>Description</em>: paste the <code>CHANGES.md</code> entry for this version. Or press
+   <strong>"Generate release notes"</strong> for an auto-list of merged PRs/commits and
+   edit from there.</li>
+<li>Optional: attach <code>dist/fastrtc_compact-0.0.2.tar.gz</code> and the <code>.whl</code> as
+   release assets (PyPI is the canonical download; attaching is a courtesy
+   mirror, skip if in doubt)</li>
+<li>Leave <em>"Set as the latest release"</em> checked → <strong>Publish release</strong></li>
+</ol>
+<p>CLI alternative (needs <code>gh auth login</code> once):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span>v0.0.2<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;v0.0.2&quot;</span><span class="w"> </span>--notes-file<span class="w"> </span>&lt;<span class="o">(</span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;/^## \[0.0.2\]/,/^## \[/p&#39;</span><span class="w"> </span>CHANGES.md<span class="o">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># or simply:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span>v0.0.2<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;v0.0.2&quot;</span><span class="w"> </span>--generate-notes
+</span></code></pre></div>
+<h3 id="24-what-updates-automatically-after-publishing">2.4 What updates automatically after publishing</h3>
+<ul>
+<li><strong>Docs header version badge</strong> — reads the latest Release via the GitHub API.
+  Note: results are cached in the browser's sessionStorage, so an
+  already-open docs tab keeps showing the old number; a fresh session shows
+  the new one.</li>
+<li><strong>Releases box</strong> on the repo front page.</li>
+<li><strong>Watchers</strong> who subscribed to releases get a notification.</li>
+<li>Nothing in the repo files needs editing (see VERSIONING.md §1.3).</li>
+</ul>
+<hr />
+<h2 id="3-fixing-mistakes">3. Fixing mistakes</h2>
+<p><strong>Tagged the wrong commit / typo in tag name (not yet pushed):</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v0.0.2<span class="w">         </span><span class="c1"># delete locally, redo</span>
+</span></code></pre></div>
+<p><strong>Already pushed:</strong> avoid re-pointing a pushed tag — anyone who fetched it
+keeps the old target, and pip's git caching can serve stale code. If the tag
+went out wrong:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>push<span class="w"> </span>github<span class="w"> </span>--delete<span class="w"> </span>v0.0.2<span class="w">   </span><span class="c1"># remove remote tag</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v0.0.2<span class="w">                 </span><span class="c1"># remove local tag</span>
+</span></code></pre></div>
+<p>...then decide: if the <em>release content</em> was wrong, don't reuse the number —
+bump PATCH and release the fixed version (same rule as PyPI). Reusing a tag
+name is only acceptable if it was caught within minutes and nobody plausibly
+fetched it.</p>
+<p><strong>Release drafted from the wrong tag:</strong> Releases can be edited or deleted
+freely on the web UI without touching git — deleting a Release does not
+delete its tag (there's a separate checkbox for that).</p>
+<hr />
+<h2 id="4-per-release-checklist">4. Per-release checklist</h2>
+<ol>
+<li>[ ] Release commit pushed to <code>main</code>; PyPI upload done (PYPI-RELEASE.md)</li>
+<li>[ ] <code>git tag -a v&lt;version&gt; -m "&lt;summary&gt;"</code></li>
+<li>[ ] <code>git push github v&lt;version&gt;</code></li>
+<li>[ ] <code>git ls-remote --tags github</code> shows it</li>
+<li>[ ] Draft Release from the tag, notes from CHANGES.md, Publish</li>
+<li>[ ] Docs badge shows new version (fresh browser session)</li>
+</ol>
+<hr />
+<h2 id="5-one-time-items-state-as-of-2026-07-14">5. One-time items (state as of 2026-07-14)</h2>
+<ul>
+<li>[x] Upstream's 22 inherited tags deleted (local only; they were never on
+  the remote)</li>
+<li>[ ] <strong>Draft the Release for the existing <code>v0.0.1</code> tag</strong> — tag is pushed,
+  Release not yet created. Follow §2.3; notes = the 0.0.1 CHANGES.md entry
+  (Gradio removal, librosa/numba → soxr, teardown fixes, ~3x smaller install).</li>
+<li>[ ] Add PyPI badge to README:
+  <code>[![PyPI](https://img.shields.io/pypi/v/fastrtc-compact)](https://pypi.org/project/fastrtc-compact/)</code></li>
+<li>[ ] Set repo About → Website to the docs or PyPI URL</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+      
+    
+  </body>
+</html>
