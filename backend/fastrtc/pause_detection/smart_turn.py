@@ -1,12 +1,40 @@
-from dataclasses import dataclass
-from typing import Optional
+from __future__ import annotations
 
+from dataclasses import dataclass
+from functools import lru_cache
+from typing import TYPE_CHECKING, Optional
+
+import click
 import numpy as np
-import onnxruntime as ort
 import soxr
+from huggingface_hub import hf_hub_download
 
 from .whisper_features import WhisperFeatures
 
+if TYPE_CHECKING:
+    import onnxruntime as ort
+
+
+@lru_cache
+def get_smart_turn_model(
+    filename: str = "smart-turn-v3.2-cpu.onnx",
+    threshold: float = 0.5,
+) -> SmartTurnV3Detector:
+    """Downloads (or reuses the cached) Smart Turn v3 ONNX model and returns a
+    warmed-up detector. Weights: https://huggingface.co/pipecat-ai/smart-turn-v3
+    (BSD-2-Clause)."""
+    import importlib.util
+
+    if importlib.util.find_spec("onnxruntime") is None:
+        raise RuntimeError(
+            "Install fastrtc-compact[smart-turn] to use Smart Turn detection"
+        )
+    path = hf_hub_download(repo_id="pipecat-ai/smart-turn-v3", filename=filename)
+    detector = SmartTurnV3Detector(onnx_model_path=path, threshold=threshold)
+    print(click.style("INFO", fg="green") + ":\t  Warming up Smart Turn model.")
+    detector.warmup()
+    print(click.style("INFO", fg="green") + ":\t  Smart Turn model warmed up.")
+    return detector
 
 @dataclass
 class SmartTurnResult:
@@ -36,6 +64,15 @@ class SmartTurnV3Detector:
         threshold: float = 0.5,
         providers: Optional[list[str]] = None,
     ):
+
+        try:
+            import onnxruntime
+        except ImportError as e:
+            raise RuntimeError(
+                "Smart Turn detection requires the onnxruntime package. "
+                "Install fastrtc-compact[smart-turn]."
+            ) from e
+
         self.onnx_model_path = onnx_model_path
         self.threshold = threshold
 
@@ -243,3 +280,9 @@ class SmartTurnV3Detector:
             return audio[-max_samples:]
 
         return audio
+
+    def warmup(self) -> None:
+        """Runs dummy inferences so first-run allocations happen before real audio."""
+        dummy = np.zeros(16000, dtype=np.float32)
+        for _ in range(3):
+            self.predict(dummy, sample_rate=16000)
